@@ -19,7 +19,7 @@ Compatibilite on Laravel 5.* (untested on 4, but should work)
 Add the following to your composer.json file:
 
 ````bash
-"jasonherndon/wptolaravel": "~1.0",
+"jasonherndon/wptolaravel": "dev-master",
 ````
 
 Run composer update.
