@@ -42,7 +42,7 @@ _ENDPOINT_
 Add your blog url here. For the given url, http://www.yoursite.wordpress.com, you'd just add:
 
 ````bash
-	'endpoint' 				=> 'yoursite',
+'endpoint' 				=> 'yoursite',
 ````
 
 _AUTHORLOOKUP_
@@ -50,15 +50,15 @@ The first field is the database field you want to lookup by on your user model. 
 from Wordpress. So if I wanted to lookup by username, I might do:
 
 ````bash
-	'lookup_my_author_by'	=> 'username',
-	'lookup_post_author_by'	=> 'login',
+'lookup_my_author_by'	=> 'username',
+'lookup_post_author_by'	=> 'login',
 ````
 
 But if I wanted to lookup by id, I might do:
 
 ````bash
-	'lookup_my_author_by'	=> 'wordpress_id',
-	'lookup_post_author_by'	=> 'id',
+'lookup_my_author_by'	=> 'wordpress_id',
+'lookup_post_author_by'	=> 'id',
 ````
 
 The next set of options gives you the ability to specify where the information coming from Wordpress will write to your post
@@ -67,19 +67,19 @@ model on your database.
 _NOTE_: You are going to need to make sure that your posts table has a field for each of these values.
 
 ````bash
-	'destination' => [
-		'posts_table' 	=> 'posts', // this is the table on your database where posts are stored
-		'wp_id'			=> 'wp_id', // this is a way of storing the blog id from wordpress
-		'title' 		=> 'title', // the title of the post
-		'slug' 			=> 'slug', // the slug
-		'content'		=> 'content', // the blog content
-		'excerpt'		=> 'excerpt', // the blog excerpt
-		'featured_img'	=> 'featured_img', // url of the image
-		'status'		=> 'status', // visibility status
-		'author'		=> 'author_name', // author id or name
-		'published'		=> 'created_at', // blog creation date
-		'updated'		=> 'updated_at', // blog last modified date
-	]
+'destination' => [
+	'posts_table' 	=> 'posts', // this is the table on your database where posts are stored
+	'wp_id'			=> 'wp_id', // this is a way of storing the blog id from wordpress
+	'title' 		=> 'title', // the title of the post
+	'slug' 			=> 'slug', // the slug
+	'content'		=> 'content', // the blog content
+	'excerpt'		=> 'excerpt', // the blog excerpt
+	'featured_img'	=> 'featured_img', // url of the image
+	'status'		=> 'status', // visibility status
+	'author'		=> 'author_name', // author id or name
+	'published'		=> 'created_at', // blog creation date
+	'updated'		=> 'updated_at', // blog last modified date
+]
 ````
 
 
@@ -88,40 +88,40 @@ _NOTE_: You are going to need to make sure that your posts table has a field for
 Ideally, this is something that runs in the background. To get that setup, just do:
 
 ````bash
-	php artisan make:console RunWordpressSync
+php artisan make:console RunWordpressSync
 ````
 
 Then go to the file app/Console/Commands directory and open the RunWordpressSync file. At the top, include:
 
 ````bash
-	use JasonHerndon\WPToLaravel\WPToLaravel;
+use JasonHerndon\WPToLaravel\WPToLaravel;
 ````
 
 Give the command a name like:
 
 ````bash
-	protected $name = 'syncwordpress';
+protected $name = 'syncwordpress';
 ````
 
 Then change the fire() method to:
 
 ````bash
-	public function fire(WPToLaravel $wptolaravel)
-	{
-		$wptolaravel->syncPostsWithDatabase();
-	}
+public function fire(WPToLaravel $wptolaravel)
+{
+	$wptolaravel->syncPostsWithDatabase();
+}
 ````
 
 This means you can fire the task at any time by running:
 
 ````bash
-	php artisan syncwordpress
+php artisan syncwordpress
 ````
 
 To schedule it to run (at whatever intervel you'd like), just return to app/Console/Kernel.php and add the task:
 
 ````bash
-	$schedule->command('syncwordpress')->everyFiveMinutes();
+$schedule->command('syncwordpress')->everyFiveMinutes();
 ````
 
 For more info on scheduling, see: [Laravel Docs](http://laravel.com/docs/master/scheduling)
